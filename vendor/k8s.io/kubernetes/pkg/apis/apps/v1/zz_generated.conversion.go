@@ -60,16 +60,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1.DaemonSet)(nil), (*apps.DaemonSet)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1_DaemonSet_To_apps_DaemonSet(a.(*v1.DaemonSet), b.(*apps.DaemonSet), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*apps.DaemonSet)(nil), (*v1.DaemonSet)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_apps_DaemonSet_To_v1_DaemonSet(a.(*apps.DaemonSet), b.(*v1.DaemonSet), scope)
-	}); err != nil {
-		return err
-	}
 	if err := s.AddGeneratedConversionFunc((*v1.DaemonSetCondition)(nil), (*apps.DaemonSetCondition)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1_DaemonSetCondition_To_apps_DaemonSetCondition(a.(*v1.DaemonSetCondition), b.(*apps.DaemonSetCondition), scope)
 	}); err != nil {
@@ -95,11 +85,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*apps.DaemonSetSpec)(nil), (*v1.DaemonSetSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_apps_DaemonSetSpec_To_v1_DaemonSetSpec(a.(*apps.DaemonSetSpec), b.(*v1.DaemonSetSpec), scope)
-	}); err != nil {
-		return err
-	}
 	if err := s.AddGeneratedConversionFunc((*v1.DaemonSetStatus)(nil), (*apps.DaemonSetStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1_DaemonSetStatus_To_apps_DaemonSetStatus(a.(*v1.DaemonSetStatus), b.(*apps.DaemonSetStatus), scope)
 	}); err != nil {
@@ -117,16 +102,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}
 	if err := s.AddGeneratedConversionFunc((*apps.DaemonSetUpdateStrategy)(nil), (*v1.DaemonSetUpdateStrategy)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_apps_DaemonSetUpdateStrategy_To_v1_DaemonSetUpdateStrategy(a.(*apps.DaemonSetUpdateStrategy), b.(*v1.DaemonSetUpdateStrategy), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*v1.Deployment)(nil), (*apps.Deployment)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1_Deployment_To_apps_Deployment(a.(*v1.Deployment), b.(*apps.Deployment), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*apps.Deployment)(nil), (*v1.Deployment)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_apps_Deployment_To_v1_Deployment(a.(*apps.Deployment), b.(*v1.Deployment), scope)
 	}); err != nil {
 		return err
 	}
@@ -152,11 +127,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}
 	if err := s.AddGeneratedConversionFunc((*v1.DeploymentSpec)(nil), (*apps.DeploymentSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1_DeploymentSpec_To_apps_DeploymentSpec(a.(*v1.DeploymentSpec), b.(*apps.DeploymentSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*apps.DeploymentSpec)(nil), (*v1.DeploymentSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_apps_DeploymentSpec_To_v1_DeploymentSpec(a.(*apps.DeploymentSpec), b.(*v1.DeploymentSpec), scope)
 	}); err != nil {
 		return err
 	}
@@ -290,16 +260,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*v1.StatefulSetSpec)(nil), (*apps.StatefulSetSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1_StatefulSetSpec_To_apps_StatefulSetSpec(a.(*v1.StatefulSetSpec), b.(*apps.StatefulSetSpec), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*apps.StatefulSetSpec)(nil), (*v1.StatefulSetSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_apps_StatefulSetSpec_To_v1_StatefulSetSpec(a.(*apps.StatefulSetSpec), b.(*v1.StatefulSetSpec), scope)
-	}); err != nil {
-		return err
-	}
 	if err := s.AddGeneratedConversionFunc((*v1.StatefulSetStatus)(nil), (*apps.StatefulSetStatus)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1_StatefulSetStatus_To_apps_StatefulSetStatus(a.(*v1.StatefulSetStatus), b.(*apps.StatefulSetStatus), scope)
 	}); err != nil {
@@ -340,8 +300,8 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1.DaemonSetSpec)(nil), (*apps.DaemonSetSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1_DaemonSetSpec_To_apps_DaemonSetSpec(a.(*v1.DaemonSetSpec), b.(*apps.DaemonSetSpec), scope)
+	if err := s.AddConversionFunc((*apps.StatefulSetSpec)(nil), (*v1.StatefulSetSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_apps_StatefulSetSpec_To_v1_StatefulSetSpec(a.(*apps.StatefulSetSpec), b.(*v1.StatefulSetSpec), scope)
 	}); err != nil {
 		return err
 	}
@@ -350,13 +310,13 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1.DeploymentSpec)(nil), (*apps.DeploymentSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1_DeploymentSpec_To_apps_DeploymentSpec(a.(*v1.DeploymentSpec), b.(*apps.DeploymentSpec), scope)
+	if err := s.AddConversionFunc((*v1.Deployment)(nil), (*apps.Deployment)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1_Deployment_To_apps_Deployment(a.(*v1.Deployment), b.(*apps.Deployment), scope)
 	}); err != nil {
 		return err
 	}
-	if err := s.AddConversionFunc((*v1.Deployment)(nil), (*apps.Deployment)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1_Deployment_To_apps_Deployment(a.(*v1.Deployment), b.(*apps.Deployment), scope)
+	if err := s.AddConversionFunc((*v1.StatefulSetSpec)(nil), (*apps.StatefulSetSpec)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1_StatefulSetSpec_To_apps_StatefulSetSpec(a.(*v1.StatefulSetSpec), b.(*apps.StatefulSetSpec), scope)
 	}); err != nil {
 		return err
 	}
@@ -536,6 +496,11 @@ func autoConvert_v1_DaemonSetSpec_To_apps_DaemonSetSpec(in *v1.DaemonSetSpec, ou
 	out.MinReadySeconds = in.MinReadySeconds
 	out.RevisionHistoryLimit = (*int32)(unsafe.Pointer(in.RevisionHistoryLimit))
 	return nil
+}
+
+// Convert_v1_DaemonSetSpec_To_apps_DaemonSetSpec is an autogenerated conversion function.
+func Convert_v1_DaemonSetSpec_To_apps_DaemonSetSpec(in *v1.DaemonSetSpec, out *apps.DaemonSetSpec, s conversion.Scope) error {
+	return autoConvert_v1_DaemonSetSpec_To_apps_DaemonSetSpec(in, out, s)
 }
 
 func autoConvert_apps_DaemonSetSpec_To_v1_DaemonSetSpec(in *apps.DaemonSetSpec, out *v1.DaemonSetSpec, s conversion.Scope) error {
@@ -738,6 +703,11 @@ func autoConvert_v1_DeploymentSpec_To_apps_DeploymentSpec(in *v1.DeploymentSpec,
 	out.Paused = in.Paused
 	out.ProgressDeadlineSeconds = (*int32)(unsafe.Pointer(in.ProgressDeadlineSeconds))
 	return nil
+}
+
+// Convert_v1_DeploymentSpec_To_apps_DeploymentSpec is an autogenerated conversion function.
+func Convert_v1_DeploymentSpec_To_apps_DeploymentSpec(in *v1.DeploymentSpec, out *apps.DeploymentSpec, s conversion.Scope) error {
+	return autoConvert_v1_DeploymentSpec_To_apps_DeploymentSpec(in, out, s)
 }
 
 func autoConvert_apps_DeploymentSpec_To_v1_DeploymentSpec(in *apps.DeploymentSpec, out *v1.DeploymentSpec, s conversion.Scope) error {
@@ -1195,11 +1165,6 @@ func autoConvert_v1_StatefulSetSpec_To_apps_StatefulSetSpec(in *v1.StatefulSetSp
 	return nil
 }
 
-// Convert_v1_StatefulSetSpec_To_apps_StatefulSetSpec is an autogenerated conversion function.
-func Convert_v1_StatefulSetSpec_To_apps_StatefulSetSpec(in *v1.StatefulSetSpec, out *apps.StatefulSetSpec, s conversion.Scope) error {
-	return autoConvert_v1_StatefulSetSpec_To_apps_StatefulSetSpec(in, out, s)
-}
-
 func autoConvert_apps_StatefulSetSpec_To_v1_StatefulSetSpec(in *apps.StatefulSetSpec, out *v1.StatefulSetSpec, s conversion.Scope) error {
 	if err := metav1.Convert_int32_To_Pointer_int32(&in.Replicas, &out.Replicas, s); err != nil {
 		return err
@@ -1216,11 +1181,6 @@ func autoConvert_apps_StatefulSetSpec_To_v1_StatefulSetSpec(in *apps.StatefulSet
 	}
 	out.RevisionHistoryLimit = (*int32)(unsafe.Pointer(in.RevisionHistoryLimit))
 	return nil
-}
-
-// Convert_apps_StatefulSetSpec_To_v1_StatefulSetSpec is an autogenerated conversion function.
-func Convert_apps_StatefulSetSpec_To_v1_StatefulSetSpec(in *apps.StatefulSetSpec, out *v1.StatefulSetSpec, s conversion.Scope) error {
-	return autoConvert_apps_StatefulSetSpec_To_v1_StatefulSetSpec(in, out, s)
 }
 
 func autoConvert_v1_StatefulSetStatus_To_apps_StatefulSetStatus(in *v1.StatefulSetStatus, out *apps.StatefulSetStatus, s conversion.Scope) error {

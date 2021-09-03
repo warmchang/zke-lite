@@ -23,7 +23,7 @@ import (
 	"sort"
 	"strings"
 
-	"k8s.io/klog"
+	"k8s.io/klog/v2"
 
 	policyv1beta1 "k8s.io/api/policy/v1beta1"
 	apiequality "k8s.io/apimachinery/pkg/api/equality"
@@ -118,7 +118,6 @@ func (p *Plugin) Admit(ctx context.Context, a admission.Attributes, o admission.
 	}
 
 	// only mutate if this is a CREATE request. On updates we only validate.
-	// TODO(liggitt): allow spec mutation during initializing updates?
 	if a.GetOperation() != admission.Create {
 		return nil
 	}
@@ -128,7 +127,7 @@ func (p *Plugin) Admit(ctx context.Context, a admission.Attributes, o admission.
 	// compute the context. Mutation is allowed. ValidatedPSPAnnotation is not taken into account.
 	allowedPod, pspName, validationErrs, err := p.computeSecurityContext(ctx, a, pod, true, "")
 	if err != nil {
-		return admission.NewForbidden(a, err)
+		return admission.NewForbidden(a, fmt.Errorf("PodSecurityPolicy: %w", err))
 	}
 	if allowedPod != nil {
 		*pod = *allowedPod
@@ -146,8 +145,8 @@ func (p *Plugin) Admit(ctx context.Context, a admission.Attributes, o admission.
 	}
 
 	// we didn't validate against any provider, reject the pod and give the errors for each attempt
-	klog.V(4).Infof("unable to validate pod %s (generate: %s) in namespace %s against any pod security policy: %v", pod.Name, pod.GenerateName, a.GetNamespace(), validationErrs)
-	return admission.NewForbidden(a, fmt.Errorf("unable to validate against any pod security policy: %v", validationErrs))
+	klog.V(4).Infof("unable to admit pod %s (generate: %s) in namespace %s against any pod security policy: %v", pod.Name, pod.GenerateName, a.GetNamespace(), validationErrs)
+	return admission.NewForbidden(a, fmt.Errorf("PodSecurityPolicy: unable to admit pod: %v", validationErrs))
 }
 
 // Validate verifies attributes against the PodSecurityPolicy
@@ -163,7 +162,7 @@ func (p *Plugin) Validate(ctx context.Context, a admission.Attributes, o admissi
 	// compute the context. Mutation is not allowed. ValidatedPSPAnnotation is used as a hint to gain same speed-up.
 	allowedPod, pspName, validationErrs, err := p.computeSecurityContext(ctx, a, pod, false, pod.ObjectMeta.Annotations[psputil.ValidatedPSPAnnotation])
 	if err != nil {
-		return admission.NewForbidden(a, err)
+		return admission.NewForbidden(a, fmt.Errorf("PodSecurityPolicy: %w", err))
 	}
 	if apiequality.Semantic.DeepEqual(pod, allowedPod) {
 		key := auditKeyPrefix + "/" + "validate-policy"
@@ -175,7 +174,7 @@ func (p *Plugin) Validate(ctx context.Context, a admission.Attributes, o admissi
 
 	// we didn't validate against any provider, reject the pod and give the errors for each attempt
 	klog.V(4).Infof("unable to validate pod %s (generate: %s) in namespace %s against any pod security policy: %v", pod.Name, pod.GenerateName, a.GetNamespace(), validationErrs)
-	return admission.NewForbidden(a, fmt.Errorf("unable to validate against any pod security policy: %v", validationErrs))
+	return admission.NewForbidden(a, fmt.Errorf("PodSecurityPolicy: unable to validate pod: %v", validationErrs))
 }
 
 func shouldIgnore(a admission.Attributes) (bool, error) {
@@ -228,7 +227,6 @@ func (p *Plugin) computeSecurityContext(ctx context.Context, a admission.Attribu
 
 	// sort policies by name to make order deterministic
 	// If mutation is not allowed and validatedPSPHint is provided, check the validated policy first.
-	// TODO(liggitt): add priority field to allow admins to bucket differently
 	sort.SliceStable(policies, func(i, j int) bool {
 		if !specMutationAllowed {
 			if policies[i].Name == validatedPSPHint {
