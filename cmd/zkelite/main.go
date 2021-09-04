@@ -45,7 +45,7 @@ import (
 func main() {
 	rand.Seed(time.Now().UnixNano())
 
-	hyperkubeCommand, allCommandFns := NewHyperKubeCommand()
+	zkeliteCommand, allCommandFns := NewZkeLiteCommand()
 
 	// TODO: once we switch everything over to Cobra commands, we can go back to calling
 	// cliflag.InitFlags() (by removing its pflag.Parse() call). For now, we have to set the
@@ -57,7 +57,7 @@ func main() {
 	defer logs.FlushLogs()
 
 	basename := filepath.Base(os.Args[0])
-	if err := commandFor(basename, hyperkubeCommand, allCommandFns).Execute(); err != nil {
+	if err := commandFor(basename, zkeliteCommand, allCommandFns).Execute(); err != nil {
 		os.Exit(1)
 	}
 }
@@ -78,8 +78,8 @@ func commandFor(basename string, defaultCommand *cobra.Command, commands []func(
 	return defaultCommand
 }
 
-// NewHyperKubeCommand is the entry point for hyperkube
-func NewHyperKubeCommand() (*cobra.Command, []func() *cobra.Command) {
+// NewZkeLiteCommand is the entry point for zkelite
+func NewZkeLiteCommand() (*cobra.Command, []func() *cobra.Command) {
 	// these have to be functions since the command is polymorphic. Cobra wants you to be top level
 	// command to get executed
 	apiserver := func() *cobra.Command { return kubeapiserver.NewAPIServerCommand() }
@@ -106,7 +106,7 @@ func NewHyperKubeCommand() (*cobra.Command, []func() *cobra.Command) {
 	}
 
 	cmd := &cobra.Command{
-		Use:   "hyperkube",
+		Use:   "zkelite",
 		Short: "Request a new project",
 		Run: func(cmd *cobra.Command, args []string) {
 			if len(args) != 0 {

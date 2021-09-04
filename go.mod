@@ -1,4 +1,4 @@
-module k8s.io/hyperkube
+module k8s.io/zkelite
 
 go 1.16
 
