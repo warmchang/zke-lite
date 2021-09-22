@@ -13,7 +13,7 @@ openapi:
 	mkdir -p /root/go/src/k8s.io/kube-openapi/boilerplate/
 	cp ./boilerplate.go.txt /root/go/src/k8s.io/kube-openapi/boilerplate/
 	${OUTPUT_DIR}/${OPENAPI_GEN} --input-dirs ./vendor/k8s.io/kubernetes/pkg/generated/openapi/ -o ./vendor/ -O zz_ -p k8s.io/apiextensions-apiserver/pkg/generated/openapi
-build: clean openapi
+build: clean
 	go build -mod vendor -ldflags "-s -w" -gcflags "-N -l" --tags providerless,dockerless -v -o ${OUTPUT_DIR}/${BIN_NAME} cmd/zkelite/main.go
 clean:
 	go clean
